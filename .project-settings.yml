@@ -1,9 +1,23 @@
+binary-ghc-args:
+- -O
+- -threaded
 module-template: ! 'module MODULE_NAME where
 
 '
-extensions: {}
+extensions:
+  OverloadedStrings: true
 environment: ghc-7.8-stable-14.09
+auto-hidden: []
 cabal-file: project.cabal
 version: 1
+extra-packages: ! 'Hackage: stm-delay 0.1.1.1
+
+  Hackage: engine-io 1.1.2
+
+  Hackage: websockets-snap 0.8.2.2
+
+  Hackage: engine-io-snap 1.0.1
+
+  Hackage: socket-io 1.3.0'
 ghc-args: []
 excluded-modules: []
