@@ -1,3 +1,4 @@
+{-# LANGUAGE ScopedTypeVariables #-}
 module Openspace (server, ServerState (..)) where
 
 import Openspace.Types
@@ -15,3 +16,6 @@ server state = do
   liftIO $ putStrLn "Hi"
   SocketIO.on "message" $ \(a) ->
     SocketIO.broadcast "message" (a :: Action)
+
+  SocketIO.on "next" $ \(a :: Action) ->
+    SocketIO.broadcast "message" (AddTopic myTopic)

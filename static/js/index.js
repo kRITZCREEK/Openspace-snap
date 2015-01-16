@@ -7332,27 +7332,27 @@ PS.Openspace_Types = (function () {
         return dict.serialize;
     };
     var myTopic5 = {
-        description: "fix", 
+        topic: "fix", 
         typ: Discussion.value
     };
     var myTopic4 = {
-        description: "Wayyyyyyy too long name for a Topic.", 
+        topic: "Wayyyyyyy too long name for a Topic.", 
         typ: Workshop.value
     };
     var myTopic3 = {
-        description: "Enemy of the State", 
+        topic: "Enemy of the State", 
         typ: Presentation.value
     };
     var myTopic2 = {
-        description: "Functional Javascript", 
+        topic: "Functional Javascript", 
         typ: Discussion.value
     };
     var myTopic1 = {
-        description: "Reactive Design", 
+        topic: "Reactive Design", 
         typ: Presentation.value
     };
     var myTopic = {
-        description: "Purescript is great", 
+        topic: "Purescript is great", 
         typ: Workshop.value
     };
     var myRoom2 = {
@@ -7403,10 +7403,10 @@ PS.Openspace_Types = (function () {
         return Data_Either.Left.create(new Data_Foreign.JSONError("Cant read TopicType"));
     });
     var foreignTopic = new Data_Foreign_Class.IsForeign(function (val) {
-        return Prelude[">>="](Data_Either.bindEither)(Data_Foreign_Class.readProp(Data_Foreign_Class.stringIsForeign)(Data_Foreign_Index.indexString)("description")(val))(function (_9) {
+        return Prelude[">>="](Data_Either.bindEither)(Data_Foreign_Class.readProp(Data_Foreign_Class.stringIsForeign)(Data_Foreign_Index.indexString)("topic")(val))(function (_9) {
             return Prelude[">>="](Data_Either.bindEither)(Data_Foreign_Class.readProp(foreignTopicType)(Data_Foreign_Index.indexString)("typ")(val))(function (_8) {
                 return Prelude["return"](Data_Either.monadEither)({
-                    description: _9, 
+                    topic: _9, 
                     typ: _8
                 });
             });
@@ -7448,7 +7448,7 @@ PS.Openspace_Types = (function () {
         });
     });
     var foreignAction = new Data_Foreign_Class.IsForeign(function (val) {
-        var _1607 = Data_Foreign_Class.readProp(Data_Foreign_Class.stringIsForeign)(Data_Foreign_Index.indexString)("action")(val);
+        var _1607 = Data_Foreign_Class.readProp(Data_Foreign_Class.stringIsForeign)(Data_Foreign_Index.indexString)("tag")(val);
         if (_1607 instanceof Data_Either.Right && _1607.value0 === "AddTopic") {
             return Prelude[">>="](Data_Either.bindEither)(Data_Foreign_Class.readProp(foreignTopic)(Data_Foreign_Index.indexString)("topic")(val))(function (_17) {
                 return Prelude["return"](Data_Either.monadEither)(new AddTopic(_17));
@@ -7512,11 +7512,11 @@ PS.Openspace_Types = (function () {
     });
     var eqTopic = new Prelude.Eq(function (_397) {
         return function (_398) {
-            return _397.description !== _398.description || Prelude["/="](eqTopicType)(_397.typ)(_398.typ);
+            return _397.topic !== _398.topic || Prelude["/="](eqTopicType)(_397.typ)(_398.typ);
         };
     }, function (_395) {
         return function (_396) {
-            return _395.description === _396.description && Prelude["=="](eqTopicType)(_395.typ)(_396.typ);
+            return _395.topic === _396.topic && Prelude["=="](eqTopicType)(_395.typ)(_396.typ);
         };
     });
     var eqRoom = new Prelude.Eq(function (_409) {
@@ -7570,18 +7570,18 @@ PS.Openspace_Types = (function () {
     var actionAsForeign = new AsForeign(function (_414) {
         if (_414 instanceof AddTopic) {
             return Data_Foreign.toForeign({
-                action: "AddTopic", 
-                topic: {
-                    description: _414.value0.description, 
+                tag: "AddTopic", 
+                contents: {
+                    topic: _414.value0.topic, 
                     typ: Prelude.show(showTopicType)(_414.value0.typ)
                 }
             });
         };
         if (_414 instanceof DeleteTopic) {
             return Data_Foreign.toForeign({
-                action: "DeleteTopic", 
-                topic: {
-                    description: _414.value0.description, 
+                tag: "DeleteTopic", 
+                contents: {
+                    topic: _414.value0.topic, 
                     typ: Prelude.show(showTopicType)(_414.value0.typ)
                 }
             });
@@ -7614,7 +7614,7 @@ PS.Openspace_Types = (function () {
             return Data_Foreign.toForeign({
                 action: "AssignTopic", 
                 topic: {
-                    description: _414.value1.description, 
+                    topic: _414.value1.topic, 
                     typ: Prelude.show(showTopicType)(_414.value1.typ)
                 }, 
                 slot: _414.value0
@@ -7624,7 +7624,7 @@ PS.Openspace_Types = (function () {
             return Data_Foreign.toForeign({
                 action: "UnassignTopic", 
                 topic: {
-                    description: _414.value0.description, 
+                    topic: _414.value0.topic, 
                     typ: Prelude.show(showTopicType)(_414.value0.typ)
                 }
             });
