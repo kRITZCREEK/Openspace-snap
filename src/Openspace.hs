@@ -1,10 +1,13 @@
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE OverloadedStrings #-}
 module Openspace (server, ServerState (..)) where
 
 import Openspace.Types
-import Snap
+import Openspace.Engine
 import Snap.Core
 import Control.Monad.State
+import Control.Applicative
+import Debug.Trace
 import qualified Network.SocketIO as SocketIO
 
 import qualified Control.Concurrent.STM as STM
@@ -12,10 +15,14 @@ import qualified Control.Concurrent.STM as STM
 data ServerState = ServerState { appState :: STM.TVar AppState }
 
 --server :: ServerState -> StateT SocketIO.RoutingTable Snap.Snap ()
-server state = do
-  liftIO $ putStrLn "Hi"
-  SocketIO.on "message" $ \(a) ->
-    SocketIO.broadcast "message" (a :: Action)
-
-  SocketIO.on "next" $ \(a :: Action) ->
-    SocketIO.broadcast "message" (AddTopic myTopic)
+server servstate = do
+  SocketIO.on "message" $ \ a -> do
+    liftIO $ STM.atomically $ do
+      newState <- evalAction a <$> STM.readTVar (appState servstate)
+      STM.writeTVar (appState servstate) newState
+      return newState
+    SocketIO.broadcast "message" a
+  SocketIO.on "state" $ do
+    mystate <- liftIO $ STM.atomically $ STM.readTVar (appState servstate)
+    let as = generateActions mystate
+    SocketIO.emit "state" as
