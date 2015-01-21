@@ -1,8 +1,9 @@
-{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveGeneric, OverloadedStrings #-}
 module Openspace.Types where
 
 import qualified Data.Map as M
 import Data.Aeson
+import Data.Text
 import GHC.Generics
 
 -----------------
@@ -27,7 +28,7 @@ topicTypes = [Discussion, Presentation, Workshop]
 --------------
 
 data Topic = Topic
-  { topic :: String
+  { topic :: Text
   , typ :: TopicType
   } deriving (Show, Eq, Generic)
 
@@ -51,7 +52,7 @@ instance ToJSON Slot
 ------------
 
 data Room = Room
-  { name :: String
+  { name :: Text
   , capacity :: Integer
   } deriving (Show, Eq, Ord, Generic)
 
@@ -62,15 +63,15 @@ instance ToJSON Room
 -- | Block |--
 -------------
 data Timerange = Timerange
-  { start :: String
-  , end :: String
+  { start :: Text
+  , end :: Text
   } deriving (Show, Eq, Ord, Generic)
 
 instance FromJSON Timerange
 instance ToJSON Timerange
 
 data Block = Block
-  { description :: String
+  { description :: Text
   , range :: Timerange
   } deriving (Show, Eq, Ord, Generic)
 
@@ -120,7 +121,7 @@ emptyState = AppState { topics = [], rooms = [], blocks = [], timeslots = M.empt
 
 myRoom = Room {name = "Berlin", capacity =  100}
 myRoom1 = Room {name= "Hamburg", capacity= 80}
-myRoom2 = Room {name= "Köln", capacity= 30}
+myRoom2 = Room {name= "Koeln", capacity= 30}
 
 myBlock = Block { description="First", range= Timerange { start= "8=00am", end= "10=00am"} }
 myBlock1 = Block { description="Second", range= Timerange { start= "10=00am", end= "12=00am"} }
