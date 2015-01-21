@@ -19,7 +19,7 @@ import Openspace.Types
 
 main :: IO ()
 main = do
-  state <- ServerState <$> STM.newTVarIO emptyState
+  state <- ServerState <$> STM.newTVarIO myState1
   socketIoHandler <- SocketIO.initialize EIOSnap.snapAPI (server state)
   --dataDir <- getDataDir
   Env.httpServe Snap.emptyConfig  $

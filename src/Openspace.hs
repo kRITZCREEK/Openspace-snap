@@ -4,7 +4,6 @@ module Openspace (server, ServerState (..)) where
 
 import Openspace.Types
 import Openspace.Engine
-import Snap.Core
 import Control.Monad.State
 import Control.Applicative
 import Debug.Trace
@@ -20,9 +19,7 @@ server servstate = do
     liftIO $ STM.atomically $ do
       newState <- evalAction a <$> STM.readTVar (appState servstate)
       STM.writeTVar (appState servstate) newState
-      return newState
     SocketIO.broadcast "message" a
   SocketIO.on "state" $ do
     mystate <- liftIO $ STM.atomically $ STM.readTVar (appState servstate)
-    let as = generateActions mystate
-    SocketIO.emit "state" as
+    SocketIO.emit "state" (generateActions mystate)
