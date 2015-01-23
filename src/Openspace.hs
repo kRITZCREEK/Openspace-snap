@@ -14,7 +14,7 @@ import qualified Control.Concurrent.STM as STM
 
 data ServerState = ServerState { appState :: STM.TVar AppState }
 
-server :: ServerState -> StateT SocketIO.RoutingTable Snap ()
+--server :: ServerState -> StateT SocketIO.RoutingTable Snap ()
 server servstate = do
   SocketIO.on "message" $ \ a -> do
     liftIO $ STM.atomically $ do
