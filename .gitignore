@@ -2,9 +2,5 @@
 /.cabal-sandbox/
 /cabal.sandbox.config
 /log/
-/static/index.html
-/static/js/grid.js
-/static/js/index.js
-/static/js/menu.js
-/static/js/topics.js
+/static
 /snaplets/
