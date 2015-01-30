@@ -22,5 +22,5 @@ server servstate = do
       STM.writeTVar (appState servstate) newState
     SocketIO.broadcast "message" a
   SocketIO.on "state" $ do
-    mystate <- liftIO $ STM.atomically $ STM.readTVar (appState servstate)
-    SocketIO.emit "state" (generateActions mystate)
+    state <- liftIO $ STM.atomically $ STM.readTVar (appState servstate)
+    SocketIO.emit "state" (generateActions state)

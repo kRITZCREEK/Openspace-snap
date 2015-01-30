@@ -1,9 +1,18 @@
-{-# LANGUAGE DeriveGeneric, OverloadedStrings #-}
+{-# LANGUAGE DeriveGeneric, OverloadedStrings, DeriveDataTypeable #-}
 module Openspace.Types where
 
 import qualified Data.Map as M
 import Data.Aeson
 import Data.Text
+import Data.Typeable
+
+import Control.Applicative
+
+import Database.PostgreSQL.Simple.FromRow
+import Database.PostgreSQL.Simple.FromField (fromJSONField, FromField, fromField)
+
+import Database.PostgreSQL.Simple.ToField (ToField, toJSONField, toField)
+
 import GHC.Generics
 
 -----------------
@@ -13,10 +22,16 @@ import GHC.Generics
 data TopicType = Discussion
                | Presentation
                | Workshop
-               deriving (Show, Eq, Generic)
+               deriving (Show, Eq, Generic, Typeable)
 
 instance FromJSON TopicType
 instance ToJSON TopicType
+
+instance FromField TopicType where
+  fromField = fromJSONField
+
+instance ToField TopicType where
+  toField = toJSONField
 
 -- Used to fill Dropdowns etc.
 -- TODO: Find a proper way to enumerate Union Datatypes
@@ -34,6 +49,9 @@ data Topic = Topic
 
 instance FromJSON Topic
 instance ToJSON Topic
+
+instance FromRow Topic where
+  fromRow = Topic <$> field <*> field
 
 ------------
 -- | Slot |--
@@ -59,6 +77,9 @@ data Room = Room
 instance FromJSON Room
 instance ToJSON Room
 
+instance FromRow Room where
+  fromRow = Room <$> field <*> field
+
 -------------
 -- | Block |--
 -------------
@@ -77,6 +98,9 @@ data Block = Block
 
 instance FromJSON Block
 instance ToJSON Block
+
+instance FromRow Block where
+  fromRow = Block <$> field <*> (Timerange <$> field <*> field)
 
 ---------------
 -- | Actions |--

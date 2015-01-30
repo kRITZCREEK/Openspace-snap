@@ -54,5 +54,3 @@ generateActions as = concat [t, r, b, ts]
         r  = reverse $ map AddRoom (rooms as)
         b  = reverse $ map AddBlock (blocks as)
         ts = map (uncurry AssignTopic) (M.toList (timeslots as))
-
-  
